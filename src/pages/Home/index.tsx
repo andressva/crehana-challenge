@@ -10,6 +10,7 @@ const Home = () => {
     const { data, refetch } = useQuery<ICountries>(getCountries);
     const {  data: dataContinents } = useQuery<IContinents>(getContinents);
     
+    const [ currentSearchKey, setCurrentSearchKey ] = useState<string>("");
     const [ countries, setCountries ] = useState<ICountry[]>([]);
     const [ currencies, setCurrencies ] = useState<string[]>();
     const [ continents, setContinets ] = useState<IContinent[]>([]);
@@ -40,7 +41,7 @@ const Home = () => {
             const cleanCurrencies = tempCurrencies.filter((item, index) => tempCurrencies.indexOf(item) === index && item);
             setCurrencies(cleanCurrencies);
         }
-        setCountries(data.countries);
+        generateData(currentSearchKey);
     }, [data])
 
     useEffect(() => {
@@ -48,17 +49,23 @@ const Home = () => {
         setContinets(dataContinents.continents);
     }, [dataContinents])
 
-    const handleSearch = (keyword: string) => {
+    const generateData = (searchKey: string) => {
         if(!data) return;
-        if(!keyword){
+        if(!searchKey){
             setCountries(data.countries);
             return;
         }
         const temp: ICountry[] = data.countries.filter(country => {
-            return country.name.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()); 
+            return country.name.toLocaleLowerCase().includes(searchKey.toLocaleLowerCase()); 
         });
 
         setCountries(temp);
+    }
+
+    const handleSearch = (keyword: string) => {
+        if(!data) return;
+        setCurrentSearchKey(keyword);
+        generateData(keyword);
     }
 
     const hanldeChangeFilter = (value: any, formData: any) => {
@@ -69,7 +76,6 @@ const Home = () => {
         
         if(continent) tempFilter.continent = { in: continent };
         if(currency) tempFilter.currency = { in: currency };
-        console.log(tempFilter)
         refetch({filter: tempFilter});
     }
 

@@ -9,11 +9,6 @@ const CountryDetail = () => {
     const { code } = useParams();
     const { data } = useQuery<ICountryResponse>(getCountry,{variables: { code }});
 
-    useEffect(() => {
-        console.log(data);
-    }, [data])
-
-
     return (
         <div className='pt-5'>
             {data && (
