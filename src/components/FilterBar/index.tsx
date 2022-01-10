@@ -28,11 +28,11 @@ const FilterBar = ({
                 enterButton
             />
             <Form
-                className='d-flex w-100'
+                className='d-flex w-75 justify-content-between'
                 onValuesChange={handleChangeFilter}
             >
                 <Form.Item
-                    className='w-50'
+                    style={{width: '49%'}}
                     name= "continents"
                 >
                     <Select
@@ -50,7 +50,7 @@ const FilterBar = ({
                     </Select>
                 </Form.Item>
                 <Form.Item
-                    className='w-25 mx-2'
+                    style={{width: '49%'}}
                     name= "currencies"
                 >
                     <Select
