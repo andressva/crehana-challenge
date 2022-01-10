@@ -28,8 +28,7 @@ export const getCountry = gql`
             currency,
             continent{ name },
             languages{ name },
-            capital,
-            emojiU,
+            capital
         }
     }
 `
